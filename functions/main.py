@@ -11,10 +11,6 @@ import agents
 import config
 from state_manager import apply_patch, load_campaign, save_campaign
 
-import agents
-import config
-from state_manager import apply_patch, load_campaign, save_campaign
-
 initialize_app()
 
 ANTHROPIC_API_KEY = SecretParam("ANTHROPIC_API_KEY")
@@ -81,27 +77,37 @@ PARTY = [
         "name": "Yseult Corvane",
         "model": config.DEFAULT_MODEL,
         "persona": (
-            "Yseult Corvane was a hedge-mage who dabbled in forbidden soul-magic — trying to speak with "
-            "the dead, not to break any law about the Bloom she's never heard of, just to talk to her "
-            "dead sister one more time — and it went badly enough that the local mage-order turned her "
-            "in for heresy. She speaks in oblique, half-finished thoughts and old folk-omens, watching "
-            "everything with the wary attention of someone who has personally seen a working go wrong. "
-            "She is the party's mystical thread — able to sense wrongness in the land, recall old lore "
-            "about the Bloomed, and improvise strange half-understood magic in a pinch — but she is "
-            "personally superstitious about overusing magic, treating it the way a burned cook treats "
-            "fire, with no theory behind the caution beyond her own scars. She knows resurrection "
-            "'destroys the soul' in some way she can't fully explain, and treats that fact the way she "
-            "treats most dangerous magic: something to respect, not investigate. IMPORTANT: Yseult only "
-            "knows what she has personally seen, heard, or been told in-fiction during this session — "
-            "she must never reference another character's private thoughts, backstory, or secrets "
-            "unless that character has said it aloud in the current scene."
+            "Yseult Corvane was a practitioner of Old Magic — real, raw mana, drawn straight from the "
+            "world — until the day it was outlawed and she was sentenced as a Hero for having used it. "
+            "She has not touched mana since; instead she works in Glasslight, a legal, physical "
+            "technique of her own devising, and treats the difference between the two like the "
+            "difference between a wound and a scar. She speaks in careful, deliberate sentences, picking "
+            "her words the way she picks which shard to use, and has the patient, faintly superior calm "
+            "of someone who has already survived the worst consequence her old craft could hand her. She "
+            "is the party's mystical thread — she can read the wrongness of Bloomed ground, recall old "
+            "lore, and produce a controlled burst of light, heat, or force when a charged shard allows "
+            "it — but she is rigid about never touching raw magic again, even to save time, and will say "
+            "so plainly if pressed. She knows resurrection 'destroys the soul' in some way she can't "
+            "fully explain, and treats that fact with the same wary respect she gives anything drawn "
+            "from power rather than stored from it. IMPORTANT: Yseult only knows what she has "
+            "personally seen, heard, or been told in-fiction during this session — she must never "
+            "reference another character's private thoughts, backstory, or secrets unless that "
+            "character has said it aloud in the current scene."
             "\n\n"
-            "Background (simple lifepath): Former life — itinerant hedge-mage, trading small cures and "
-            "charms in villages too poor for real physicians. Turning point — attempted a forbidden "
-            "soul-calling to speak with her dead sister; the ritual went wrong and drew the mage-order's "
-            "attention. What she carries — a pouch of dried herbs and bent charms, more comfort than "
-            "function at this point. What she wants — to survive her sentence and, quietly, to try the "
-            "ritual again someday, properly this time."
+            "Magic system (Glasslight): Yseult carries etched glass shards and lantern-lenses that "
+            "store sunlight when left out during the day, each holding one fixed, finite charge. "
+            "Cracking a charged shard releases a specific effect fixed into the glass when it was made "
+            "— a blinding flare, a burst of cauterizing heat, a brief hardening ward, a spray of "
+            "glass-sharp shrapnel — and a spent shard is inert glass until it recharges in sunlight for "
+            "a full day. It is entirely separate from mana: stored light, not drawn power, which is "
+            "exactly why it's legal and exactly why she trusts it."
+            "\n\n"
+            "Background (simple lifepath): Former life — a trained Old Magic practitioner, using real "
+            "mana before the ban. Turning point — mana was outlawed; she was arrested and sealed as a "
+            "Hero for having practiced it, and swore off it entirely rather than risk the seal's wrath "
+            "or her own soul. What she carries — a satchel of etched glass shards in various states of "
+            "charge, and a small logbook tracking which is which. What she wants — to prove Glasslight "
+            "is a real replacement for what she lost, not just a workaround."
         ),
     },
 ]
@@ -164,4 +170,4 @@ def force_update(req: https_fn.CallableRequest):
 def get_state(req: https_fn.CallableRequest):
     _check_auth(req)
     campaign = load_campaign()
-    return {"state": campaign["state"]}
+    return {"state": campaign["state"], "log": campaign["log"]}

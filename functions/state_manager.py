@@ -60,6 +60,22 @@ def apply_patch(state: dict, patch: dict) -> dict:
     state["inventory"].update(patch.get("inventory_changes", {}) or {})
     state["quest_flags"].update(patch.get("quest_flag_updates", {}) or {})
     state["npc_notes"].update(patch.get("npc_notes", {}) or {})
+
+    state.setdefault("party", {})
+    for name, changes in (patch.get("party_updates", {}) or {}).items():
+        pc = state["party"].setdefault(name, {})
+        if "hp" in changes:
+            pc["hp"] = changes["hp"]
+        if "coins" in changes:
+            pc["coins"] = changes["coins"]
+        pc_inventory = pc.setdefault("inventory", [])
+        for item in changes.get("inventory_add", []) or []:
+            if item not in pc_inventory:
+                pc_inventory.append(item)
+        for item in changes.get("inventory_remove", []) or []:
+            if item in pc_inventory:
+                pc_inventory.remove(item)
+
     return state
 
 

@@ -106,12 +106,27 @@ UPDATE_STATE_TOOL = {
                 "type": "object",
                 "description": "NPC name -> short status/disposition note, only if changed.",
             },
+            "party_updates": {
+                "type": "object",
+                "description": (
+                    "Character name -> what changed for that character only. "
+                    'Include "hp" (their new current HP, an absolute number, '
+                    'not a delta) and/or "coins" (their new total) if either '
+                    'changed. For carried items, use "inventory_add" (list of '
+                    'newly acquired item names) and/or "inventory_remove" '
+                    "(list of item names they lost, used up, or gave away). "
+                    "Omit any field or character that didn't change. Never "
+                    "invent changes to str/dex/wil/arm — those don't change "
+                    "during normal play."
+                ),
+            },
         },
         "required": [
             "new_facts",
             "inventory_changes",
             "quest_flag_updates",
             "npc_notes",
+            "party_updates",
         ],
     },
 }
@@ -146,4 +161,5 @@ def run_scribe(state: dict, log: list, window: int) -> dict:
         "inventory_changes": {},
         "quest_flag_updates": {},
         "npc_notes": {},
+        "party_updates": {},
     }
